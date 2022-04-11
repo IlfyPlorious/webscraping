@@ -4,9 +4,15 @@ from database import delete_many_from_collection
 
 database = 'user_products_database'
 
-dbname = get_database(database)
+db = get_database('user_products_database')
 
-top_fav = dbname.top_favorite
+db.createUser(
+   {
+     'user': "accountUser",
+     'pwd': "PaSSw0rd",
+     'roles': ["readWrite", "dbAdmin"]
+   }
+)
 
 item = {
     "item_name": "Blender",
@@ -16,10 +22,4 @@ item = {
     "category": "kitchen appliance"
 }
 
-products = top_fav.find()
 
-delete_many_from_collection([products[0]['_id'], products[1]['_id']], 'top_favorite', dbname)
-
-
-for product in products:
-    print(product)
