@@ -1,13 +1,10 @@
 def get_database(database):
-    # Provide the mongodb atlas url to connect python to mongodb using pymongo
     connection_string = "mongodb+srv://dev:PaSSw0rd@realmcluster.xvmm3.mongodb.net/ProductsDatabase?retry \
     Writes=true&w=majority"
 
-    # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
     from pymongo import MongoClient
     client = MongoClient(connection_string)
 
-    # return the needed database
     return client[database]
 
 

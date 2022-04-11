@@ -18,10 +18,8 @@ WINDOW_SIZE = "1920,1080"
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=%s" % WINDOW_SIZE)
-chrome_options.binary_location = CHROME_PATH
+# chrome_options.binary_location = CHROME_PATH
 
-
-# /home/dragos/Drivers/chromedriver
 
 def getPages(label):
     webpages = []
@@ -134,7 +132,7 @@ Comenzi:
 - sterge colectie din baza de date !! folositi ghilimelele >>> purge "numele colectiei"
 - inchide aplicatia >>> exit
 - instructiu >>> help
-
+    
 """)
 
 command = "first1"
@@ -157,9 +155,9 @@ while command != 'exit':
                   'Daca refreshul esueaza rulati din nou comanda de refresh')
             products = readEmagProducts()
             write_all_to_database(products, database)
-            print('Refresh completed')
+            print('\nRefresh completed')
         except:
-            print('Refresh failed')
+            print('\nRefresh failed')
     elif command == 'toate':
         try:
             print('Extragem datele...\n')
@@ -169,35 +167,35 @@ while command != 'exit':
             pretty_print(top)
             pretty_print(pret)
 
-            print('Operatie finalizata!')
+            print('\nOperatie finalizata!')
         except:
-            print('Extragerea datelor a esuat')
+            print('\nExtragerea datelor a esuat')
 
     elif command == 'top':
         try:
             print('Extragem datele...\n')
             top = get_products_in_collection('Top Favorite', database)
             pretty_print(top)
-            print('Operatie finalizata!')
+            print('\nOperatie finalizata!')
         except:
-            print('Extragerea datelor a esuat')
+            print('\nExtragerea datelor a esuat')
 
     elif command == 'super':
         try:
             print('Extragem datele...\n')
             pret = get_products_in_collection('Super Pret', database)
             pretty_print(pret)
-            print('Operatie finalizata!')
+            print('\nOperatie finalizata!')
         except:
-            print('Extragerea datelor a esuat')
+            print('\nExtragerea datelor a esuat')
     elif 'purge' in command:
         collection = command[7:len(command)-1]
         try:
-            print('Se sterge colectia ', collection.strip('"'))
+            print('\nSe sterge colectia ', collection.strip('"'))
             database[collection].drop()
-            print('Colectie stearsa')
-        except:
-            print('Eroare la stergerea colectiei')
+            print('\nColectie stearsa')
+        except Exception:
+            print('\nEroare la stergerea colectiei')
     elif command == 'help':
         print("""
 Comenzi:
