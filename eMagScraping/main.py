@@ -1,16 +1,14 @@
 import os.path
 
 from bs4 import BeautifulSoup
-from distutils import util
-import requests
 from selenium import webdriver
-from requests_html import HTMLSession
 from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from database import *
+import sys
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 CHROME_PATH = '/usr/bin/google-chrome'
@@ -120,7 +118,11 @@ def write_all_to_database(total_list, database):
 
 database = get_database('produse_emag')
 
-print("""Hello! Aceasta aplicatie permite obtinerea produselor
+print("""
+<------------------------------------->
+
+
+Hello! Aceasta aplicatie permite obtinerea produselor
 cu eticheta Top Favorite sau Super Pret de pe site-ul eMag. 
 Informatiile sunt preluate din baza de date de pe MongoDB.
 
@@ -131,6 +133,7 @@ Comenzi:
 - refresh baza de date >>>  refresh
 - sterge colectie din baza de date !! folositi ghilimelele >>> purge "numele colectiei"
 - inchide aplicatia >>> exit
+- instructiu >>> help
 
 """)
 
@@ -149,7 +152,9 @@ while command != 'exit':
 
     if command == 'refresh':
         try:
-            print('Loading... Dureaza putin pana se extrag datele. Warningurile nu afecteaza rularea.')
+            print('Loading... Dureaza putin pana se extrag datele. \n',
+                  'Warningurile nu afecteaza rularea.\n',
+                  'Daca refreshul esueaza rulati din nou comanda de refresh')
             products = readEmagProducts()
             write_all_to_database(products, database)
             print('Refresh completed')
@@ -193,6 +198,17 @@ while command != 'exit':
             print('Colectie stearsa')
         except:
             print('Eroare la stergerea colectiei')
+    elif command == 'help':
+        print("""
+Comenzi:
+- obtine toate produsele >>>  toate
+- filtreaza dupa Top Favorite >>>  top
+- filtreaza dupa Super Pret >>>  super
+- refresh baza de date >>>  refresh
+- sterge colectie din baza de date !! folositi ghilimelele >>> purge "numele colectiei"
+- inchide aplicatia >>> exit
+- instructiu >>> help
+        """)
     elif command == 'first1':
         pass
     else:
