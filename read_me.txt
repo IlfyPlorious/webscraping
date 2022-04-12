@@ -11,6 +11,8 @@ Instalarea dependintelor:
 Pentru functionarea aplicatiei este necesar ca pe sistemul utilizatorului sa fie 
 instalat Python3
 De asemenea trebuie instalat browserul Google Chrome
+Daca nu se doreste instalarea browserului Google Chrome,
+a se vedea liniile 30-40 din main.py
 
 linux: sudo apt-get install python3
 windows: instalarea python3 prin descarcarea de pe un browser web
@@ -36,4 +38,14 @@ windows: pentru a rula python full/path/to/main.py
 este necesara adaugarea la PATH a executorului python
 
 Aplicatia deruleaza interactiunea cu utilizatorul folosind consola.
+
+Pentru a testa functionarea unor featureruri extra care nu functioneaza consistent, a se vedea 
+comentariile de pe linia 64 din main.py:
+# urmatoarele secvente comentate efectueaza parcurgerea spre a 2 a pagina
+    # pe sistemul meu - laptop linux, codul functioneaza fara probleme
+    # insa pe windows, am intampinat mai multe probleme. Daca dimensiunea ecranului sistemului este
+    # mai mica de 1980 x 1080, chiar daca am setat dimensiunea ferestrei sa fie aceasta,
+    # butonul de pagina este dedesubtul butonului de cookies, insa acesta nu functioneaza.
+    # astfel nu poate am reusit sa realizez o solutie consistenta pentru a accesa a doua pagina
+
 

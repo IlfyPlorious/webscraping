@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from database import *
-import sys
+
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 CHROME_PATH = '/usr/bin/google-chrome'
@@ -30,13 +30,25 @@ def getPages(label):
     else:
         classtag = 'success'
 
+    # in cazul in care pe sistem nu este instalata o instanta de chrome,
+    # se pot comenta liniile 39 si 40 si se poate decomenta linia 37, insa
+    # browserul nu va mai fi headless
+
     # browser = webdriver.Chrome(ChromeDriverManager().install())
+
     browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()),
-                               options=chrome_options)
+                              options=chrome_options)
     browser.get("https://www.emag.ro/")
 
     browser.set_window_position(0, 0)
     browser.set_window_size(1920, 1080)
+
+    # buttonul de accept ( avand clasa = btn btn-primary js-accept gtm_h76e8zjgoo btn-block )
+    # nu este accesibil
+
+    # cookies = browser.find_element(by=By.XPATH,
+    #                                value="//*[@class='btn btn-primary js-accept gtm_h76e8zjgoo btn-block']")
+    # cookies.click()
 
     item = browser.find_element(by=By.XPATH, value="//*[@data-id='23']")
 
@@ -46,10 +58,21 @@ def getPages(label):
     nou = browser.find_elements(by=By.XPATH, value=f"//*[@class='label label-{classtag}']")
 
     nou[0].click()
+
     webpages.append(browser.page_source)
-    secondpage = browser.find_element(by=By.XPATH, value="//*[@data-page='2']")
+
+    # urmatoarele secvente comentate efectueaza parcurgerea spre a 2 a pagina
+    # pe sistemul meu - laptop linux, codul functioneaza fara probleme
+    # insa pe windows, am intampinat mai multe probleme. Daca dimensiunea ecranului sistemului este
+    # mai mica de 1980 x 1080, chiar daca am setat dimensiunea ferestrei sa fie aceasta,
+    # butonul de pagina este dedesubtul butonului de cookies, insa acesta nu functioneaza.
+    # astfel nu poate am reusit sa realizez o solutie consistenta pentru a accesa a doua pagina
+
+    # se poate testa functionalitatea stergand ''' ''' comentariilor.
+
+    '''secondpage = browser.find_element(by=By.XPATH, value="//*[@data-page='2']")
     secondpage.click()
-    webpages.append(browser.page_source)
+    webpages.append(browser.page_source)'''
 
     for i in range(1, len(nou)):
         browser.back()
@@ -59,9 +82,9 @@ def getPages(label):
         nou = browser.find_elements(by=By.XPATH, value=f"//*[@class='label label-{classtag}']")
         nou[i].click()
         webpages.append(browser.page_source)
-        secondpage = browser.find_element(by=By.XPATH, value="//*[@data-page='2']")
+        '''secondpage = browser.find_element(by=By.XPATH, value="//*[@data-page='2']")
         secondpage.click()
-        webpages.append(browser.page_source)
+        webpages.append(browser.page_source)'''
 
     browser.quit()
     return webpages
@@ -156,8 +179,8 @@ while command != 'exit':
             products = readEmagProducts()
             write_all_to_database(products, database)
             print('\nRefresh completed')
-        except:
-            print('\nRefresh failed')
+        except Exception as e:
+            print('\nRefresh failed', e)
     elif command == 'toate':
         try:
             print('Extragem datele...\n')
