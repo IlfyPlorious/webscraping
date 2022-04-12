@@ -23,6 +23,7 @@ pip install selenium
 pip install webdriver_manager
 pip install pymongo
 pip install dnspython
+pip install lxml
 
 
 Pentru rularea aplicatiei:
