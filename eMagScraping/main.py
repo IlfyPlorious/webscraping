@@ -1,4 +1,5 @@
 import os.path
+import time
 
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -6,6 +7,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from database import *
 
@@ -16,14 +18,17 @@ CHROMEDRIVER_PATH = os.path.join(ROOT_DIR, 'chromedriver')
 WINDOW_SIZE = "1920,1080"
 
 chrome_options = Options()
-chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=%s" % WINDOW_SIZE)
 # chrome_options.binary_location = CHROME_PATH
+
+def wait():
+    time.sleep(2)
+    return True
 
 
 def getPages(label):
     webpages = []
-    classtag = ''
 
     if label == 'Promo':
         classtag = 'danger'
@@ -38,7 +43,7 @@ def getPages(label):
 
     browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()),
                               options=chrome_options)
-    browser.get("https://www.emag.ro/")
+    browser.get("https://www.emag.ro/homepage")
 
     browser.set_window_position(0, 0)
     browser.set_window_size(1920, 1080)
@@ -54,6 +59,7 @@ def getPages(label):
 
     hover = ActionChains(browser).move_to_element(item)
     hover.perform()
+
 
     nou = browser.find_elements(by=By.XPATH, value=f"//*[@class='label label-{classtag}']")
 

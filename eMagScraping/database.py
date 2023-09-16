@@ -1,6 +1,10 @@
+import os
+
+from dotenv import load_dotenv
+
 def get_database(database):
-    connection_string = "mongodb+srv://dev:PaSSw0rd@realmcluster.xvmm3.mongodb.net/ProductsDatabase?retry \
-    Writes=true&w=majority"
+    load_dotenv('.env')
+    connection_string = os.environ.get('connection-string')
 
     from pymongo import MongoClient
     client = MongoClient(connection_string)
